@@ -9,11 +9,11 @@ $db = include_once(__DIR__."/include/use_db.php");
 
 $telegram_id = post_parameter('chat_id');	// At moment ignored anyway
 if(!empty($telegram_id) && is_numeric($telegram_id)){
-	$gigi = new TelegramBot(APP_TELEGRAM_SECRET_TOKEN_STRING);
+	$telegram_bot = new TelegramBot(APP_TELEGRAM_SECRET_TOKEN_STRING);
 	$update_id = post_parameter('update_id');
 	$update_id = $update_id!=null ? $update_id : 0;
 	
-	$result = json_decode($gigi->getUpdates($update_id));
+	$result = json_decode($telegram_bot->getUpdates($update_id));
 	if($result->ok){
 		if(array_key_exists('result', $result)){
 			$updates=$result->result;
@@ -38,7 +38,7 @@ if(!empty($telegram_id) && is_numeric($telegram_id)){
 
 				$fetched_updates[]=$query_params;
 			}
-			json_echo(array('status'=>0, 'message'=>$fetched_updates));
+			json_echo(array('status'=>0, 'message'=>$fetched_updates));	// At moment just for testing - Will be replaced.
 		}else{
 			json_echo(array('status'=>1, 'message'=>'No updates pending.'));
 		}

@@ -15,6 +15,6 @@ if(!empty($telegram_id) && is_numeric($telegram_id)){
 	}
 }
 
-if(!$success) http_response_code(400);
-else		  http_response_code(200);
+if(!$success) {json_echo(array('status'=>0, message=>'Message sent.')); http_response_code(400);}
+else		  {json_echo(array('status'=>1, message=>'Error on backend.')); http_response_code(200);}
 ?>
