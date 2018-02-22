@@ -31,9 +31,5 @@ class TelegramBot{
 	function getUpdates($offset=0,$limit=100,$timeout=0){
 		return $this->callTelegramAPI("getUpdates",['offset'=>$offset,'limit'=>$limit,'timeout'=>$timeout]);
 	}
-	
-	function destroyFile($file){
-		unlink($file);
-	}
 }
 ?>
