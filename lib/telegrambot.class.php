@@ -31,5 +31,40 @@ class TelegramBot{
 	function getUpdates($offset=0,$limit=100,$timeout=0){
 		return $this->callTelegramAPI("getUpdates",['offset'=>$offset,'limit'=>$limit,'timeout'=>$timeout]);
 	}
+
+	function parseUpdates($updates,$chat_id=null){
+		$result = json_decode($updates);
+		if($result->ok){
+			if(array_key_exists('result', $result)){
+				$updates=$result->result;
+				$parsed_update=array();
+				foreach($updates as $key=>$update){
+					$message=$update->message;
+	
+					// Reconstruct user message in a more human readable way with only necessary infos
+					$parsed_message=array();
+					$parsed_message['update_id']=$update->update_id;
+					$parsed_message['message_id']=$message->message_id;
+					$parsed_message['from_id']=$message->from->id;
+					$parsed_message['from_username']=$message->from->username;
+					$parsed_message['date']=$message->date;
+					$parsed_message['text']=$message->text;
+
+					if($chat_id!=null && $chat_id==$parsed_message['from_id']){
+						// As PHP is not strongly typed, we can just return straight away a single element.
+						return $parsed_message;
+					}else{
+						// Save the parsed message into a list.
+						$parsed_update[]=$parsed_message;
+					}
+				}
+				return $parsed_update;
+			}else return false;
+		}else return false;
+	}
+
+	function getParsedUpdates($chat_id=null,$offset=0,$limit=100,$timeout=0){
+		return $this->parseUpdates($this->getUpdates($offset,$limit,$timeout),$chat_id);
+	}
 }
 ?>

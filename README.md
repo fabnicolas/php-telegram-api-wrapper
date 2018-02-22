@@ -58,8 +58,27 @@ $telegram_bot->sendPhoto($image_path, $chat_id, function() use ($image_path){
 
 ### Get incoming messages from users to Telegram bot
 Be careful to not expose this code as an API for users; keep user privacy in mind.
+
+The easiest way is:
 ```php
-    // For some parameters details/usage, check get_updates.php and https://core.telegram.org/bots/api#getting-updates.
+$result = $telegram_bot->getParsedUpdates();
+if($result){
+	foreach($result as $key=>$message){
+		// Analyze each $message as an array (update_id, message_id, from_id, from_username, date, text).
+    }
+}else{
+    // No new messages incoming.
+}
+```
+Check https://core.telegram.org/bots/api#getting-updates , get_updates.php and TelegramBot class for more details about the structure and the underlying APIs.
+
+In particular, `get_updates.php` in the web server takes care of handling new messages and saving them into a database table; in future it will be possible to retrieve saved messages (And delete them to mark them as read) thanks to the API wrapper. 
+
+
+
+To retrieve more details and handle data manually:
+```php
+    // For some parameters details/usage, check get_updates.php, TelegramBot class and .
     $update_id=0;   // Update ID; clients send 0 the first time, then uses last possible number.
     $offset=0; // Optional, default 0; used to acknowledge messages. Read Telegram API for details.
     $limit=100; // Optional, default 100; used to limit the number of updates handled at the same time.
