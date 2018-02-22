@@ -63,8 +63,8 @@ The easiest way is:
 ```php
 $result = $telegram_bot->getParsedUpdates();
 if($result){
-	foreach($result as $key=>$message){
-		// Analyze each $message as an array (update_id, message_id, from_id, from_username, date, text).
+    foreach($result as $key=>$message){
+    	// Analyze each $message as an array (update_id, message_id, from_id, from_username, date, text).
     }
 }else{
     // No new messages incoming.
