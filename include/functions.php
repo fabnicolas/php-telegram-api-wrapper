@@ -1,4 +1,10 @@
 <?php
+function enable_errors(){
+	ini_set('display_errors', 1);
+	ini_set('display_startup_errors', 1);
+	error_reporting(E_ALL);
+}
+
 function post_parameter($key){
 	return isset($_POST[$key]) ? $_POST[$key] : null;
 }
@@ -19,4 +25,7 @@ function json_echo($json_object){
 	header('Content-Type: application/json');
 	echo json_encode($json_object);	
 }
+
+// Enable errors
+enable_errors();
 ?>
