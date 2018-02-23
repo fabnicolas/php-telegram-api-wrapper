@@ -1,9 +1,11 @@
 # Telegram API WebServer in PHP/RDBMS
-Do you want to manage a Telegram bot on a web server with PHP+SQL architecture?
+Web server to manage your Telegram bot (with its own Telegram API wrapper), written in PHP and SQL.
 
-Do you want to integrate your client applications (Java Desktop, .NET apps, Android APKs, iOS apps, frontend AJAX requests, whatever) with Telegram API, so that you/your application can send/receive messages and photos?
+Useful to integrate Telegram API with any client application (Java Desktop, .NET apps, Android APKs, iOS apps, frontend AJAX requests, whatever) with a RESTful web service such as this web server; you can send messages, photos and receive data through/towards bot.
 
-Then this web server, lightweight and easy to configure, will do for your case.
+Useful if you want to manage a Telegram bot from a web server AND secure your key, using a VPS or any web hosting service (even free ones) that provides you PHP and any RDBMS.
+
+Easy to use, to configure and lightweight.
 
 ## Requirements
 1. Any web hosting service with PHP+SQL plan (Even free tier options, for example https://www.000webhost.com/);
@@ -41,8 +43,11 @@ define('DB_NAME', "your_database");
 The project consists on a:
 - A working web server that can be deployed where you want (On a web hosting service, or in local...);
 - API wrapper classes:
+
 -- **TelegramBot** (To manage bot);
+
 -- **DB** (To interact with any SQL database);
+
 -- **Uploader** (To upload media).
 
 
@@ -54,7 +59,7 @@ The offered endpoints actually supports:
 - Sending photos to a particular user;
 - Getting incoming messages from a particular user.
 
-If you want to customize behaviors --- Check "Coded functionalities"; it provides insights on how the code works and how you can rework it and uses classes at your advantage.
+If you want to customize behaviors - Check "Coded functionalities"; it provides you insights on how the code works, how you can rework it and how to use classes at your advantage to provide additional functionalities.
 
 
 ## Web server endpoints
@@ -199,4 +204,4 @@ In alternative, use the customized approach to parse the JSON object and compare
 ## PR
 PR requests are welcome.
 
-Also - if you have a Telegram bot and a web server customized by yourself thanks to this project - feel free to send a PR to link your repository down below!
+Also - if you have a Telegram bot and a web server customized by yourself thanks to this project - feel free to send a PR to **link your repository** down below!
