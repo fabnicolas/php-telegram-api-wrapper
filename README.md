@@ -201,7 +201,12 @@ if($result){
 ```
 In alternative, use the customized approach to parse the JSON object and compare `from_id` values that matches a given `chat_id`.
 
-## PR
-PR requests are welcome.
+## Pull Requests
+PR requests are welcome. You can:
+- Add/edit/improve underlying functionalities on classes inside `/lib/` folder;
+- Add PHP scripts to provide additional functionalities inside project root;
+- Add functions for data validation inside `/include/functions.php`; 
+- Ask questions regarding any possible concern;
+- Link your repository down below *if you have a Telegram bot and a web server customized by yourself thanks to this project*.
 
-Also - if you have a Telegram bot and a web server customized by yourself thanks to this project - feel free to send a PR to **link your repository** down below!
+You're welcome!
