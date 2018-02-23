@@ -2,14 +2,32 @@
 class TelegramBot{
 	var $base_bot_url;
 	var $token=null;
+	var $ca_cert=null;
 	
 	function __construct($token){
 		$this->token=$token;
 		$this->base_bot_url="https://api.telegram.org/bot".$token."/";
 	}
+
+	function useCertificate($path){
+		$this->ca_cert=$path;
+	}
+
+	private function httpRequest($url){
+		if($this->ca_cert){
+			$ssl_options = array("ssl"=>array(
+				"cafile" => ($this->ca_cert),
+				"verify_peer"=> true,
+				"verify_peer_name"=> true,
+			));
+			return file_get_contents($url, false, stream_context_create($ssl_options));
+		}else{
+			return file_get_contents($url);
+		}
+	}
 	
 	private function callTelegramAPI($command, $data){
-		return file_get_contents(($this->base_bot_url).$command."?".http_build_query($data));
+		return $this->httpRequest(($this->base_bot_url).$command."?".http_build_query($data));
 	}
 	
 	function sendMessage($text, $chat_id){
