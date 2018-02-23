@@ -41,7 +41,7 @@ class TelegramBot{
 				foreach($updates as $key=>$update){
 					$message=$update->message;
 	
-					// Reconstruct user message in a more human readable way with only necessary infos
+					// Reconstruct user message in a more human readable way with only necessary info.
 					$parsed_message=array();
 					$parsed_message['update_id']=$update->update_id;
 					$parsed_message['message_id']=$message->message_id;
@@ -50,11 +50,9 @@ class TelegramBot{
 					$parsed_message['date']=$message->date;
 					$parsed_message['text']=$message->text;
 
-					if($chat_id!=null && $chat_id==$parsed_message['from_id']){
-						// As PHP is not strongly typed, we can just return straight away a single element.
-						return $parsed_message;
-					}else{
-						// Save the parsed message into a list.
+					// If we are parsing all messages or we are parsing only messages from a certain chat_id...
+					if($chat_id==null || $chat_id==$parsed_message['from_id']){
+						// Save the parsed message to a list.
 						$parsed_update[]=$parsed_message;
 					}
 				}

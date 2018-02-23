@@ -1,7 +1,7 @@
 # Telegram API WebServer in PHP/RDBMS
 Do you want to manage a Telegram bot on a web server with PHP+SQL architecture?
 
-Do you want to integrate your client applications (Java Desktop, Android, iOS, whatever) with Telegram API, so that you/your application can send/receive messages and photos?
+Do you want to integrate your client applications (Java Desktop, .NET apps, Android APKs, iOS apps, frontend AJAX requests, whatever) with Telegram API, so that you/your application can send/receive messages and photos?
 
 Then this web server, lightweight and easy to configure, will do for your case.
 
@@ -37,62 +37,30 @@ define('DB_NAME', "your_database");
 
 3. Start use the web server!
 
-## Coded functionalities
-Make sure you use the following snippets when `TelegramBot` and `DB` objects are ready to use.
-Copy `send_message.php` and use the copy as easiest template to extend functionalities.
-
-### Send a message
-```php
-$chat_id=12345678; // Chat ID of the target the bot sends message to.
-$telegram_bot->sendMessage("I'm a bot; I'll be loyal forever to you, unless you make me crash.", $chat_id);
-```
-
-### Send a photo
-```php
-$image_path='./image.png';  // Any path; send_photo.php contains an implementation to handle images sent by user
-$chat_id=12345678; // Chat ID of the target the bot sends message to.
-$telegram_bot->sendPhoto($image_path, $chat_id, function() use ($image_path){
-	unlink($image_path); // Callback to remove image from web server after you sent it.
-});
-```
-
-### Get incoming messages from users to Telegram bot
-Be careful to not expose this code as an API for users; keep user privacy in mind.
-
-The easiest way is:
-```php
-$result = $telegram_bot->getParsedUpdates();
-if($result){
-    foreach($result as $key=>$message){
-    	// Analyze each $message as an array (update_id, message_id, from_id, from_username, date, text).
-    }
-}else{
-    // No new messages incoming.
-}
-```
-Check https://core.telegram.org/bots/api#getting-updates , get_updates.php and TelegramBot class for more details about the structure and the underlying APIs.
-
-In particular, `get_updates.php` in the web server takes care of handling new messages and saving them into a database table; in future it will be possible to retrieve saved messages (And delete them to mark them as read) thanks to the API wrapper. 
+## Understanding the project
+The project consists on a:
+- A working web server that can be deployed where you want (On a web hosting service, or in local...);
+- API wrapper classes:
+-- **TelegramBot** (To manage bot);
+-- **DB** (To interact with any SQL database);
+-- **Uploader** (To upload media).
 
 
+This web server offers built-in endpoints; if you are interested in a ready-to-use solution, routes are already set up.
+Check "Web server endpoints" to have a detailed understanding on how to use those endpoints to integrate this server a REST service in your applications.
 
-To retrieve more details and handle data manually:
-```php
-    // For some parameters details/usage, check get_updates.php, TelegramBot class and .
-    $update_id=0;   // Update ID; clients send 0 the first time, then uses last possible number.
-    $offset=0; // Optional, default 0; used to acknowledge messages. Read Telegram API for details.
-    $limit=100; // Optional, default 100; used to limit the number of updates handled at the same time.
-    $timeout=0; // Optional, default 0 (short polling); if you want to use long polling, set a value >0.
-    $result = json_decode($telegram_bot->getUpdates($update_id));
-    // Analyze the JSON structure to find interesting data.
-```
+The offered endpoints actually supports:
+- Sending messages to a particular user;
+- Sending photos to a particular user;
+- Getting incoming messages from a particular user.
 
-### Get incoming messages from a specific user
-Use the same request as before; parse the JSON to retrieve matching `from_id` that equals a given `chat_id`.
+If you want to customize behaviors --- Check "Coded functionalities"; it provides insights on how the code works and how you can rework it and uses classes at your advantage.
 
 
-## API endpoints
-The following endpoints were heavily tested with Advanced Rest Client. Postman is an equivalent. Treat this server like a REST server.
+## Web server endpoints
+The following endpoints were heavily tested with Advanced Rest Client. Postman is an equivalent.
+
+Treat this server like a REST server.
 
 As base URL we will consider https://your_url.com/ for examples.
 Remember that each Telegram user has its own chat_id: for testing purposes, retrieve yours by contacting https://t.me/RawDataBot ; also remember the user you want to send requests to must have /start-ed your Telegram bot.
@@ -155,3 +123,80 @@ Sample answer (success):
 }
 ```
 Effect: the effect is determined by your application (That parses this JSON as an array of messages and decides what to do for each message).
+
+## Coded functionalities
+Make sure you use the following snippets when `TelegramBot` and `DB` objects are ready to use.
+Copy `send_message.php` and use the copy as easiest template to extend functionalities.
+
+### Send a message
+```php
+$chat_id=12345678; // Chat ID of the target the bot sends message to.
+$telegram_bot->sendMessage("I'm a bot; I'll be loyal forever to you, unless you make me crash.", $chat_id);
+```
+
+### Send a photo
+```php
+$image_path='./image.png';  // Any path; send_photo.php contains an implementation to handle images sent by user
+$chat_id=12345678; // Chat ID of the target the bot sends message to.
+$telegram_bot->sendPhoto($image_path, $chat_id, function() use ($image_path){
+	unlink($image_path); // Callback to remove image from web server after you sent it.
+});
+```
+
+### Get incoming messages from users to Telegram bot
+This code can turn useful in case you want to handle getUpdates API messages in your way.
+
+Be careful to NOT expose this code as an endpoint for users; keep user privacy in mind, because this function without parameters will return the list of messages that every user sent within 24 hours.
+
+The easiest way is:
+```php
+$result = $telegram_bot->getParsedUpdates();
+if($result){
+    foreach($result as $key=>$message){
+    	// Analyze each $message as an array (update_id, message_id, from_id, from_username, date, text).
+    }
+}else{
+    // No new messages incoming.
+}
+```
+Check https://core.telegram.org/bots/api#getting-updates , get_updates.php and TelegramBot class for more details about the structure and the underlying APIs.
+
+In particular, `get_updates.php` in the web server takes care of handling new messages and saving them into a database table; in future it will be possible to retrieve saved messages (And delete them to mark them as read) thanks to the API wrapper. 
+
+
+
+To retrieve more details and handle data manually:
+```php
+    // For some parameters details/usage, check get_updates.php, TelegramBot class and .
+    $update_id=0;   // Update ID; clients send 0 the first time, then uses last possible number.
+    $offset=0; // Optional, default 0; used to acknowledge messages. Read Telegram API for details.
+    $limit=100; // Optional, default 100; used to limit the number of updates handled at the same time.
+    $timeout=0; // Optional, default 0 (short polling); if you want to use long polling, set a value >0.
+    $result = json_decode($telegram_bot->getUpdates($update_id));
+    // Analyze the JSON structure to find interesting data.
+```
+
+### Get incoming messages from a specific user
+This code is an extension of "Coded functionalities -> Get incoming messages from users to Telegram bot".
+
+You can expose this code as an endpoint for users but keep in mind that it can be bruteforced to detect all messages sent by users within 24 hours.
+
+The easiest way is:
+```php
+$chat_id=12345678; // Chat ID of the messages sent by the target with that chat ID.
+$result = $telegram_bot->getParsedUpdates($chat_id);
+if($result){
+    foreach($result as $key=>$message){
+    	// Analyze each $message as an array (update_id, message_id, from_id, from_username, date, text).
+    }
+}else{
+    // No new messages incoming from the target with that chat ID.
+}
+
+```
+In alternative, use the customized approach to parse the JSON object and compare `from_id` values that matches a given `chat_id`.
+
+## PR
+PR requests are welcome.
+
+Also - if you have a Telegram bot and a web server customized by yourself thanks to this project - feel free to send a PR to link your repository down below!
