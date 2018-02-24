@@ -1,5 +1,5 @@
 <?php
-require_once("./include/config.php");
+$config = require_once("./include/config.php");
 include("./include/functions.php");
 include("./lib/telegrambot.class.php");
 include("./lib/uploader.class.php");
@@ -11,7 +11,7 @@ if(!empty($telegram_id) && is_numeric($telegram_id)){
 	$uploader = new Uploader("./tmp/");
 	if(!empty($_FILES['image'])){
 		if(($file=($uploader->uploadImage($_FILES['image'])))!=false){
-			$gigi = new TelegramBot(APP_TELEGRAM_SECRET_TOKEN_STRING);
+			$gigi = new TelegramBot($config['telegram_bot_API_key']);
 			$gigi->sendPhoto(($uploader->getDirectory()).$file, $telegram_id, function() use ($uploader, $file){
 				$uploader->destroyImage($file);
 			});

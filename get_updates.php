@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__."/include/config.php");
+$config = require(__DIR__."/include/config.php");
 require_once(__DIR__."/include/functions.php");
 include_once(__DIR__."/lib/telegrambot.class.php");
 
@@ -7,7 +7,7 @@ $success=false;
 
 $db = include_once(__DIR__."/include/use_db.php");
 
-$telegram_bot = new TelegramBot(APP_TELEGRAM_SECRET_TOKEN_STRING);
+$telegram_bot = new TelegramBot($config['telegram_bot_API_key']);
 $update_id = post_parameter('update_id');
 $update_id = $update_id!=null ? $update_id : 0;
 

@@ -12,30 +12,25 @@ Easy to use, to configure and lightweight.
 2. The API key of your Telegram bot (Read Step 1 to discover how to create a bot: https://github.com/fabnicolas/telegram-bot-readytouse/blob/master/README.md)
 
 ## Setup (Web Server)
-1. Execute this SQL code (Tested on MySQL):
-```sql
-CREATE TABLE IF NOT EXISTS `updates` (
-  `update_id` bigint(20) NOT NULL,
-  `message_id` bigint(20) NOT NULL,
-  `from_id` bigint(20) NOT NULL,
-  `from_username` varchar(255) NOT NULL,
-  `date` bigint(20) NOT NULL,
-  `text` text NOT NULL,
-  PRIMARY KEY (`update_id`,`message_id`)
-)
-```
-This table will store all the basic contents relative to messages sent from users towards Telegram bot.
 
-2. Create file `include/config.php` with the following content:
+1. Create file `include/config.php` with the following content:
 ```php
 <?php
-define('APP_TELEGRAM_SECRET_TOKEN_STRING', "your_key");
-define('DB_HOST', "localhost");
-define('DB_USER', "your_username");
-define("DB_PASSWORD", "your_password");
-define('DB_NAME', "your_database");
+return [
+    'telegram_bot_API_key' => "your_key",
+    'db_host' => "localhost",
+    'db_user' => "your_username",
+    "db_password" => "your_password",
+    'db_name' => "your_database"
+];
 ?>
 ```
+
+2. Run https://your_url.com/install.php . It will **create the following table inside your database**:
+```sql
+updates(update_id, message_id, from_id, from_username, date, text)
+```
+Ah, the script will self-destruct; PHP magic. *Don't worry - your server will not explode (I hope :P)*
 
 3. Start use the web server!
 
