@@ -8,8 +8,8 @@ Useful if you want to **manage** a Telegram bot from a web server AND secure you
 Easy to use, to configure and lightweight.
 
 ## Requirements
-1. Any web hosting service with PHP+SQL plan (Even free tier options, for example https://www.000webhost.com/ or https://it.altervista.org/ etc.);
-2. The API key of your Telegram bot (Read Step 1 to discover how to create a bot: https://github.com/fabnicolas/telegram-bot-readytouse/blob/master/README.md)
+1. **Any** web hosting service with **PHP+SQL plan** (Even free tier options, for example https://www.000webhost.com/ or https://it.altervista.org/ etc.);
+2. The **API key of your Telegram bot** (Read Step 1 to discover how to create a bot: https://github.com/fabnicolas/telegram-bot-readytouse/blob/master/README.md)
 
 ## Setup (Web Server)
 
@@ -20,7 +20,7 @@ return [
     'telegram_bot_API_key' => "your_key",
     'db_host' => "localhost",
     'db_user' => "your_username",
-    "db_password" => "your_password",
+    'db_password' => "your_password",
     'db_name' => "your_database"
 ];
 ?>
@@ -94,8 +94,8 @@ This is a wrapped and modified version of getUpdates Telegram API: https://core.
 
 The wrapped version:
 - **Simplifies** the original API by cutting unnecessary data for a client-to-bot successful communication, showing only `status` of the request, a `message` list and `next_update_id`;
-- Caches info provided by the original API in a RDBMS. It's eventually possible to separate the caching process from the read requests themselves;
-- Provides you the last `next_update_id` in a dedicated JSON attribute so that your application can make new requests without recalcolating the new `update_id` parameter.
+- **Caches** info provided by the original API in a RDBMS. It's eventually possible to separate the caching process from the read requests themselves;
+- **Provides** you the last `next_update_id` in a dedicated JSON attribute so that your application can make new requests without recalcolating the new `update_id` parameter.
 
 **Notice**: `update_id` in the request payload should be implemented as follow:
 - = `0` at start of your application;

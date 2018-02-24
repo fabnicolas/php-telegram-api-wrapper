@@ -5,8 +5,8 @@ function enable_errors(){
 	error_reporting(E_ALL);
 }
 
-function post_parameter($key){
-	return isset($_POST[$key]) ? $_POST[$key] : null;
+function post_parameter($key,$default=null){
+	return isset($_POST[$key]) ? $_POST[$key] : $default;
 }
 
 function execute_atomically($function_to_execute){

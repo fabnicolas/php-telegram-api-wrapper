@@ -6,16 +6,19 @@ include("./lib/uploader.class.php");
 
 $success=false;
 
-$telegram_id = post_parameter('chat_id');
+$telegram_id = post_parameter('chat_id');	// chat_id of the target user to send photo to.
 if(!empty($telegram_id) && is_numeric($telegram_id)){
+	// Let's instantiate an uploader to upload our image, sent in payload, stored in $_FILES['image'].
 	$uploader = new Uploader("./tmp/");
 	if(!empty($_FILES['image'])){
 		if(($file=($uploader->uploadImage($_FILES['image'])))!=false){
-			$gigi = new TelegramBot($config['telegram_bot_API_key']);
-			$gigi->sendPhoto(($uploader->getDirectory()).$file, $telegram_id, function() use ($uploader, $file){
+			// If the image was uploaded successfully to our server, let's send it to the target.
+			$telegram_bot = new TelegramBot($config['telegram_bot_API_key']);
+			$telegram_bot->sendPhoto(($uploader->getDirectory()).$file, $telegram_id, function() use ($uploader, $file){
+				// When communication is finished, remove the image from the server.
 				$uploader->destroyImage($file);
 			});
-			$success=true;
+			$success=true;	// The operation was successful.
 		}
 	}
 }
