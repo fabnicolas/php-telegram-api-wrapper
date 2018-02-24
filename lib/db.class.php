@@ -13,6 +13,14 @@ class DB{
         return (substr($str_params,0,strlen($str_params)-1));
     }
 
+    function in_composer($arr_values){
+        $str_params="";
+        foreach($arr_values as $key=>$value){
+            $str_params.=$value.",";
+        }
+        return (substr($str_params,0,strlen($str_params)-1));
+    }
+
     function __construct($connection_params, $admin_params, $connect=true){
         $this->connection_params=$connection_params;
         $this->admin_params=$admin_params;

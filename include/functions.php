@@ -18,12 +18,12 @@ function execute_atomically($function_to_execute){
 }
 
 function debug_var($var){
-	echo var_export($var,true);
+	return var_export($var,true);
 }
 
-function json_echo($json_object){
+function json($json_object){
 	header('Content-Type: application/json');
-	echo json_encode($json_object);	
+	return json_encode($json_object);	
 }
 
 // Enable errors
