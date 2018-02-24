@@ -21,7 +21,6 @@ if($result){
 			 VALUES (:update_id, :message_id, :from_id, :from_username, :date, :text)");
 		$statement->execute($message_params);
 	}
-	die(json(array('status'=>0, 'message'=>$parsed_result)));
 }
 
 $telegram_id = post_parameter('chat_id');
@@ -33,16 +32,18 @@ if(!empty($telegram_id) && is_numeric($telegram_id)){
 	$parsed_result = array();
 	$update_ids_todelete = array();
 	foreach($result as $message){
-		$update_id=$message['update_id'];
-		$parsed_result[]=array('update_id'=>$update_id, 'text'=>$message['text']);
-		$update_ids_todelete[]=$update_id;
+		$current_update_id=$message['update_id'];
+		$parsed_result[]=array('update_id'=>$current_update_id, 'text'=>$message['text']);
+		$update_ids_todelete[]=$current_update_id;
 	}
+	$next_update_id=$update_id;
 	if(!empty($update_ids_todelete)){
 		$update_ids_string=$db->in_composer($update_ids_todelete);
 		$statement = $db->getPDO()->prepare("DELETE FROM `updates` WHERE FIND_IN_SET(update_id, :update_id)");
 		$statement->execute(array('update_id'=>$update_ids_string));
+		$next_update_id=$update_ids_todelete[count($update_ids_todelete)-1]+1;
 	}
-	die(json(array('status'=>0, 'message'=>$parsed_result)));
+	echo json(array('status'=>0, 'message'=>$parsed_result, 'next_update_id'=>$next_update_id));
 	
 	$success=true;
 }
