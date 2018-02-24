@@ -1,5 +1,5 @@
 <?php
-$config = require_once("./include/config.php");
+$config = require("./include/config.php");
 include("./include/functions.php");
 include("./lib/telegrambot.class.php");
 
@@ -15,6 +15,6 @@ if(!empty($telegram_id) && is_numeric($telegram_id)){
 	}
 }
 
-if(!$success) {json_echo(array('status'=>0, message=>'Message sent.')); http_response_code(400);}
-else		  {json_echo(array('status'=>1, message=>'Error on backend.')); http_response_code(200);}
+if(!$success) {echo json(array('status'=>0, message=>'Message sent.')); http_response_code(400);}
+else		  {echo json(array('status'=>1, message=>'Error on backend.')); http_response_code(200);}
 ?>
