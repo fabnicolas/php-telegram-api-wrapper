@@ -12,8 +12,7 @@ Easy to use, to configure and lightweight.
 2. The **API key of your Telegram bot** (Read Step 1 to discover how to create a bot: https://github.com/fabnicolas/telegram-bot-readytouse/blob/master/README.md)
 
 ## Setup (Web Server)
-
-1. Create file `include/config.php` with the following content:
+1. **Create** file `include/config.php` with the following content:
 ```php
 <?php
 return [
@@ -26,16 +25,16 @@ return [
 ?>
 ```
 
-2. Run https://your_url.com/install.php . It will **create the following table inside your database**:
+2. **Run** https://your_url.com/install.php . It will **create the following table inside your database**:
 ```sql
 updates(update_id, message_id, from_id, from_username, date, text)
 ```
-Ah, the script will self-destruct; PHP magic. *Don't worry - your server will not explode (I hope :P)*
+...Ah, the installation script will self-destruct after use. *PHP magic. Don't worry - your server will not explode (I hope :P)*
 
-3. Start use the web server!
+3. **Start use the web server!**
 
 ## Understanding the project
-The project consists on a:
+The project consists on:
 - A working web server that can be deployed where you want (On a web hosting service, or in local...);
 - API wrapper classes:
 
