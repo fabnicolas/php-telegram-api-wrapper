@@ -21,5 +21,5 @@ $db->pdo->query(
     )");
 
 class SelfDestroy{function __destruct(){unlink(__FILE__);}}
-$installation_finished = new DeleteOnExit();
+$installation_finished = new SelfDestroy();
 ?>
