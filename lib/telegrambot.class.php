@@ -64,7 +64,7 @@ class TelegramBot{
 					$parsed_message['update_id']=$update->update_id;
 					$parsed_message['message_id']=$message->message_id;
 					$parsed_message['from_id']=$message->from->id;
-					$parsed_message['from_username']=$message->from->username;
+					$parsed_message['from_username']=isset($message->from->username) ? $message->from->username : '';
 					$parsed_message['date']=$message->date;
 					$parsed_message['text']=$message->text;
 

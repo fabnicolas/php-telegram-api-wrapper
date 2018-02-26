@@ -14,7 +14,7 @@ $db->pdo->query(
     `update_id` bigint(20) NOT NULL,
     `message_id` bigint(20) NOT NULL,
     `from_id` bigint(20) NOT NULL,
-    `from_username` varchar(255) NOT NULL,
+    `from_username` varchar(255),
     `date` bigint(20) NOT NULL,
     `text` text NOT NULL,
     PRIMARY KEY (`update_id`,`message_id`)

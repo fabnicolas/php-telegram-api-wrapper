@@ -54,6 +54,6 @@ if(!empty($telegram_id) && is_numeric($telegram_id)){
 	$success=true;
 }
 
-if(!$success) {echo json(array('status'=>1, 'message'=>'Error on backend.')); http_response_code(200);}
-else		  {echo json(array('status'=>0, 'message'=>$parsed_result, 'next_update_id'=>$next_update_id)); http_response_code(400);}
+if(!$success) {echo json(array('status'=>1, 'message'=>'Error on backend.')); http_response_code(400);}
+else		  {echo json(array('status'=>0, 'message'=>$parsed_result, 'next_update_id'=>$next_update_id)); http_response_code(200);}
 ?>
