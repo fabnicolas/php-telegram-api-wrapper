@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__."/random_bytes/random.php";
 class Uploader{
 	var $upload_dir;
 	
