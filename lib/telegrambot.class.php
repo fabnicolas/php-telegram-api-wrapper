@@ -22,12 +22,24 @@ class TelegramBot{
 			));
 			return file_get_contents($url, false, stream_context_create($ssl_options));
 		}else{
+			return $this->url_get_contents($url);
+		}
+	}
+
+	function url_get_contents($url){
+		if(!function_exists('curl_init')){ 
 			return file_get_contents($url);
 		}
+		$ch = curl_init();
+		curl_setopt($ch, CURLOPT_URL, $url);
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+		$output = curl_exec($ch);
+		curl_close($ch);
+		return $output;
 	}
 	
 	private function callTelegramAPI($command, $data){
-		return $this->httpRequest(($this->base_bot_url).$command."?".http_build_query($data));
+		return $this->httpRequest(($this->base_bot_url).$command."?".str_replace("&amp;", "&", http_build_query($data)));
 	}
 	
 	function sendMessage($text, $chat_id, $disable_notifications=false){
@@ -38,15 +50,20 @@ class TelegramBot{
 		]);
 	}
 	
-	function sendPhoto($image_url, $chat_id, $callback=null){
+	function sendPhoto($image_url, $chat_id, $caption='', $callback=null){
 		$url = ($this->base_bot_url)."sendPhoto?chat_id=".$chat_id;
-		$post_fields = array('chat_id' => $chat_id, 'photo' => new CURLFile(realpath($image_url)));
+		$post_fields = array(
+			'chat_id' => $chat_id,
+			'photo' => new CURLFile(realpath($image_url)),
+			'caption' => $caption
+		);
 		$ch = curl_init(); 
 		curl_setopt($ch, CURLOPT_HTTPHEADER, array("Content-Type:multipart/form-data"));
 		curl_setopt($ch, CURLOPT_URL, $url); 
 		curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1); 
 		curl_setopt($ch, CURLOPT_POSTFIELDS, $post_fields); 
 		$output = curl_exec($ch);
+		curl_close($ch);
 		if($callback!=null) $callback();
 	}
 	
