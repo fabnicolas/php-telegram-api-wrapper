@@ -11,7 +11,7 @@ if(!empty($telegram_id) && is_numeric($telegram_id)){
 	if(!empty($message)){
 		// Let's use telegram bot to send message to the target user.
 		$telegram_bot = new TelegramBot($config['telegram_bot_API_key']);
-		$telegram_bot->sendMessage($message, $telegram_id, false);
+		$telegram_bot->sendMessage($message, $telegram_id);
 		$success=true;	// The operation was successful.
 	}
 }
