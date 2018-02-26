@@ -30,7 +30,7 @@ class TelegramBot{
 		return $this->httpRequest(($this->base_bot_url).$command."?".http_build_query($data));
 	}
 	
-	function sendMessage($text, $chat_id, $disable_notifications){
+	function sendMessage($text, $chat_id, $disable_notifications=false){
 		$this->callTelegramAPI("sendMessage",[
 			'text'=>$text,
 			'chat_id'=>$chat_id,
